@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#172b4d">
+<meta name="description" content="Diario personal de entrenamiento para Behumax 450 PRO">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Mi entrenamiento</title>
+<style>
+:root{--bg:#f3f5f8;--card:#fff;--ink:#172033;--muted:#687386;--line:#e3e8ef;--accent:#2457c5;--soft:#eaf0ff;--ok:#137a50;--warn:#9a5b00;--danger:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:#172b4d;color:white;padding:22px 18px 16px;position:sticky;top:0;z-index:3}
+header h1{font-size:21px;margin:0 0 4px}header p{margin:0;color:#d5deef;font-size:12px}
+nav{display:flex;gap:7px;padding:10px 12px;background:white;position:sticky;top:75px;z-index:2;border-bottom:1px solid var(--line)}
+nav button{flex:1;border:0;background:#f0f2f6;padding:11px 5px;border-radius:10px;font-weight:650;color:#455064}
+nav button.active{background:var(--accent);color:white}
+main{max-width:680px;margin:auto;padding:14px 13px 36px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:15px;margin-bottom:13px;box-shadow:0 2px 8px #16243a08}
+h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px}
+.small{font-size:12px;color:var(--muted)}label{display:block;font-size:13px;font-weight:650;margin:10px 0 5px}
+input,select,textarea{width:100%;font:inherit;padding:11px;border:1px solid #cfd6e1;border-radius:10px;background:white;color:var(--ink)}
+textarea{min-height:70px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button.primary,.action{border:0;background:var(--accent);color:white;border-radius:11px;padding:13px 15px;font:inherit;font-weight:700;width:100%;margin-top:12px}
+button.secondary{background:var(--soft);color:var(--accent);border:0;border-radius:10px;padding:10px 12px;font-weight:650}
+button.danger{background:#fff0ef;color:var(--danger);border:0;border-radius:9px;padding:8px 10px}
+.segment{display:flex;gap:7px}.segment button{flex:1;padding:10px;border:1px solid var(--line);border-radius:10px;background:white;font-weight:700}.segment button.selected{background:var(--soft);border-color:var(--accent);color:var(--accent)}
+.exercise{border:1px solid var(--line);border-radius:12px;padding:12px;margin:9px 0}
+.exercise-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.exercise-top strong{font-size:14px}
+.tag{font-size:11px;background:#edf1f7;color:#4d5b70;padding:4px 8px;border-radius:20px}
+.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#f5f7fa;padding:12px;border-radius:11px;text-align:center}.stat b{display:block;font-size:22px}.stat span{font-size:11px;color:var(--muted)}
+.entry{padding:11px 0;border-bottom:1px solid var(--line)}.entry:last-child{border:0}.entry strong{display:block}.entry p{margin:4px 0;color:var(--muted);font-size:13px}
+.notice{background:#fff7e8;border:1px solid #f2dfb7;color:#704500;border-radius:11px;padding:11px;font-size:13px;line-height:1.4}
+.hidden{display:none!important}.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:15px}
+@media(min-width:600px){main{padding-top:20px}}
+</style>
+</head>
+<body>
+<header><h1>Mi entrenamiento</h1><p>Behumax 450 PRO · Diario personal</p></header>
+<nav>
+<button class="active" data-tab="train">Entrenar</button>
+<button data-tab="history">Historial</button>
+<button data-tab="body">Evolución</button>
+<button data-tab="backup">Copia</button>
+</nav>
+<main>
+<section id="train">
+<div class="card">
+<h2>Registrar ejercicio</h2>
+<label>Fecha</label><input id="date" type="date">
+<label>Sesión</label><div class="segment" id="daySelect"><button data-day="A" class="selected">Día A</button><button data-day="B">Día B</button><button data-day="C">Día C</button></div>
+<label>Ejercicio</label><select id="exercise"></select>
+<div class="grid">
+<div><label>Peso (kg)</label><input id="weight" type="number" min="0" step="0.5" placeholder="Ej. 10"></div>
+<div><label>Series</label><input id="sets" type="number" min="1" value="2"></div>
+<div><label>Repeticiones por serie</label><input id="reps" type="number" min="1" value="12"></div>
+<div><label>Esfuerzo (1-10)</label><select id="effort"><option value="">Sin indicar</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+</div>
+<h3 style="margin-top:16px">Control de molestias (0 = ninguna, 10 = máxima)</h3>
+<div class="grid">
+<div><label>Lumbar</label><select id="lumbar"></select></div>
+<div><label>Hombro izquierdo</label><select id="shoulder"></select></div>
+</div>
+<label>Observaciones</label><textarea id="notes" placeholder="Sensaciones, técnica, molestias..."></textarea>
+<button class="primary" id="saveExercise">Guardar ejercicio</button>
+<p class="small">Guarda cada ejercicio por separado. Si cambias el peso entre series, registra cada bloque por separado.</p>
+</div>
+<div class="notice">Seguridad: no entrenes atravesando dolor punzante. Por tus antecedentes lumbares, mantén cargas conservadoras y evita cualquier movimiento que reproduzca el pinzamiento. El hombro debe valorarse si el dolor persiste.</div>
+</section>
+
+<section id="history" class="hidden">
+<div class="card"><h2>Historial</h2><div class="statgrid" id="historyStats"></div><div id="historyList"></div></div>
+</section>
+
+<section id="body" class="hidden">
+<div class="card"><h2>Evolución corporal</h2>
+<label>Fecha</label><input id="measureDate" type="date">
+<div class="grid"><div><label>Peso corporal (kg)</label><input id="bodyWeight" type="number" step="0.1" min="0" placeholder="Ej. 82.5"></div><div><label>Cintura (cm)</label><input id="waist" type="number" step="0.1" min="0" placeholder="Ej. 94"></div></div>
+<button class="primary" id="saveMeasure">Guardar medición</button>
+</div>
+<div class="card"><h2>Mediciones anteriores</h2><div id="measureList"></div></div>
+</section>
+
+<section id="backup" class="hidden">
+<div class="card"><h2>Copias de seguridad</h2>
+<p class="small">Los datos se guardan en este dispositivo y navegador. Exporta una copia regularmente y guárdala en Drive o en otro lugar seguro. Si borras los datos del navegador o cambias de móvil, necesitarás importar la copia.</p>
+<button class="primary" id="export">Descargar copia de seguridad</button>
+<label>Restaurar una copia JSON</label><input id="importFile" type="file" accept="application/json">
+<button class="secondary" id="import">Importar copia seleccionada</button>
+<p id="backupMsg" class="small"></p>
+</div>
+<div class="card"><h2>Datos de esta aplicación</h2><p id="counts" class="small"></p><button class="danger" id="clearAll">Borrar todos los datos</button></div>
+</section>
+</main>
+<footer>Diario personal · Los datos permanecen en tu dispositivo. Haz copias de seguridad.</footer>
+<script src="app.js"></script>
+</body></html>
